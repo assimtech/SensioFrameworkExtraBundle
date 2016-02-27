@@ -53,18 +53,85 @@ case for the above example, you can even omit the annotation value::
         return array('post' => $post);
     }
 
-.. note::
+Engine selection
+^^^^^^^^^^^^^^^^
 
-    If you are using PHP as a templating system, you need to make it
-    explicit::
+The default engine can be configured for your application. See
+:ref:`Configuration <frameworkextra-configuration>`
 
-        /**
-         * @Template(engine="php")
-         */
-        public function showAction($id)
-        {
-            // ...
-        }
+You can override the default templating engine for a specific action::
+
+    /**
+     * @Template(engine="php")
+     */
+    public function showAction($id)
+    {
+        // ...
+    }
+
+If you are supporting multiple ``engines`` based on input ``_format`` you can
+configure a default per ``_format``. This will override the ``deafult_engine``.
+
+For example, if you wanted to::
+
+* Leverage `fputcsv`_ for ``csv`` responses
+* Control the view variables with ``php`` for ``json`` responses
+
+.. configuration-block::
+
+    .. code-block:: yaml
+
+        sensio_framework_extra:
+            # Other options...
+            view:
+                engines:
+                    csv: php
+                    json: php
+
+    .. code-block:: xml
+
+        <!-- xmlns:sensio-framework-extra="http://symfony.com/schema/dic/symfony_extra" -->
+        <sensio-framework-extra:config>
+            <!-- Other options... -->
+            <view annotations="true" default_engine="twig">
+                <view-engines>
+                    <view-engine format="csv" engine="php" />
+                    <view-engine format="json" engine="php" />
+                </view-engines>
+            </view>
+        </sensio-framework-extra:config>
+
+    .. code-block:: php
+
+        // load the profiler
+        $container->loadFromExtension('sensio_framework_extra', array(
+            // Other options...
+            'view' => array(
+                'annotations'       => true,
+                'default_engine'    => 'twig',
+                'engines'           => array(
+                    'csv'   => 'php',
+                    'json'  => 'php',
+                ),
+            ),
+        ));
+
+You can also override the default templating engine for a specific ``_format``
+per action::
+
+    /**
+     * @Template(engines={
+     *      csv="php",
+     *      json="php",
+     * })
+     */
+    public function listAction()
+    {
+        // ...
+    }
+
+Template variables from ParamConverter
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 And if the only parameters to pass to the template are method arguments, you
 can use the ``vars`` attribute instead of returning an array. This is very
@@ -98,3 +165,5 @@ attribute is defined::
     public function showAction(Post $post)
     {
     }
+
+.. _`fputcsv`: http://php.net/manual/en/function.fputcsv.php

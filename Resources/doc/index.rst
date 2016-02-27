@@ -44,13 +44,15 @@ your ``autoload.php`` by adding the following line::
 
     Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
+.. _frameworkextra-configuration:
+
 Configuration
 -------------
 
 All features provided by the bundle are enabled by default when the bundle is
 registered in your Kernel class.
 
-The default configuration is as follow:
+The default configuration is as follows:
 
 .. configuration-block::
 
@@ -59,7 +61,7 @@ The default configuration is as follow:
         sensio_framework_extra:
             router:      { annotations: true }
             request:     { converters: true, auto_convert: true }
-            view:        { annotations: true }
+            view:        { annotations: true, default_engine: twig }
             cache:       { annotations: true }
             security:    { annotations: true }
             psr_message: { enabled: false } # Defaults to true if the PSR-7 bridge is installed
@@ -71,7 +73,7 @@ The default configuration is as follow:
         <sensio-framework-extra:config>
             <router annotations="true" />
             <request converters="true" auto_convert="true" />
-            <view annotations="true" />
+            <view annotations="true" default_engine="twig" />
             <cache annotations="true" />
             <security annotations="true" />
             <psr-message enabled="false" /> <!-- Defaults to true if the PSR-7 bridge is installed -->
@@ -83,7 +85,7 @@ The default configuration is as follow:
         $container->loadFromExtension('sensio_framework_extra', array(
             'router'      => array('annotations' => true),
             'request'     => array('converters' => true, 'auto_convert' => true),
-            'view'        => array('annotations' => true),
+            'view'        => array('annotations' => true, 'default_engine' => 'twig'),
             'cache'       => array('annotations' => true),
             'security'    => array('annotations' => true),
             'psr_message' => array('enabled' => false), // Defaults to true if the PSR-7 bridge is installed
