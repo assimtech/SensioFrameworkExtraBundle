@@ -24,7 +24,8 @@ array of parameters to pass to the view instead of a ``Response`` object.
 
 .. note::
 
-    If you want to stream your template, you can make it with the following configuration::
+    If you want to stream your template, you can make it with the following
+    configuration::
 
         /**
          * @Template(isStreamable=true)
@@ -36,7 +37,7 @@ array of parameters to pass to the view instead of a ``Response`` object.
 
 
 .. tip::
-   If the action returns a ``Response`` object, the ``@Template`` 
+   If the action returns a ``Response`` object, the ``@Template``
    annotation is simply ignored.
 
 If the template is named after the controller and action names, which is the
@@ -69,10 +70,11 @@ You can override the default templating engine for a specific action::
         // ...
     }
 
-If you are supporting multiple ``engines`` based on input ``_format`` you can
-configure a default per ``_format``. This will override the ``deafult_engine``.
+If you are supporting multiple templating engines based on request ``_format``
+you can configure a default per ``_format``. This will override the
+``deafult_engine``.
 
-For example, if you wanted to::
+For example, if you wanted to:
 
 * Leverage `fputcsv`_ for ``csv`` responses
 * Control the view variables with ``php`` for ``json`` responses
@@ -84,9 +86,10 @@ For example, if you wanted to::
         sensio_framework_extra:
             # Other options...
             view:
-                engines:
-                    csv: php
-                    json: php
+                default_engine: twig
+                default_format_engines:
+                    csv:    php
+                    json:   php
 
     .. code-block:: xml
 
@@ -94,10 +97,8 @@ For example, if you wanted to::
         <sensio-framework-extra:config>
             <!-- Other options... -->
             <view annotations="true" default_engine="twig">
-                <view-engines>
-                    <view-engine format="csv" engine="php" />
-                    <view-engine format="json" engine="php" />
-                </view-engines>
+                <default-format-engine format="csv" engine="php" />
+                <default-format-engine format="json" engine="php" />
             </view>
         </sensio-framework-extra:config>
 
@@ -107,9 +108,9 @@ For example, if you wanted to::
         $container->loadFromExtension('sensio_framework_extra', array(
             // Other options...
             'view' => array(
-                'annotations'       => true,
-                'default_engine'    => 'twig',
-                'engines'           => array(
+                'annotations'               => true,
+                'default_engine'            => 'twig',
+                'default_format_engines'    => array(
                     'csv'   => 'php',
                     'json'  => 'php',
                 ),
@@ -120,7 +121,7 @@ You can also override the default templating engine for a specific ``_format``
 per action::
 
     /**
-     * @Template(engines={
+     * @Template(format_engines={
      *      csv="php",
      *      json="php",
      * })
