@@ -60,7 +60,17 @@ Engine selection
 The default engine can be configured for your application. See
 :ref:`Configuration <frameworkextra-configuration>`
 
-You can override the default templating engine for a specific action::
+You can override the default templating engine for a specific controller::
+
+    /**
+     * @Template(engine="php")
+     */
+    class DefaultController
+    {
+        // ...
+    }
+
+Or action::
 
     /**
      * @Template(engine="php")
@@ -118,7 +128,20 @@ For example, if you wanted to:
         ));
 
 You can also override the default templating engine for a specific ``_format``
-per action::
+per controller::
+
+    /**
+     * @Template(format_engines={
+     *      csv="php",
+     *      json="php",
+     * })
+     */
+    class DefaultController
+    {
+        // ...
+    }
+
+Or action::
 
     /**
      * @Template(format_engines={
